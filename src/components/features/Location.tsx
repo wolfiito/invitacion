@@ -1,17 +1,9 @@
-import { motion } from "framer-motion";
-import { MapPin, Car, ExternalLink } from "lucide-react";
+import { MapPin } from "lucide-react";
 import { FadeIn } from "../ui/FadeIn";
 
 export const Location = () => {
   // Coordenadas de ejemplo (Cámbialas por las reales de tu venue)
   // Tip: Busca el lugar en Google Maps, click derecho > "¿Qué hay aquí?" para sacar lat,long exactas
-  const venue = {
-    name: "Hacienda del Bosque",
-    address: "Carretera Nacional Km 25, El Barrial",
-    googleMapsUrl: "https://goo.gl/maps/TuLinkDeGoogle", // Link corto de "Compartir"
-    wazeUrl: "https://waze.com/ul?ll=25.568,-100.250&navigate=yes", // Reemplaza lat,long
-    mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3595.6!2d-100.3!3d25.6!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjXCsDM0JzA4LjQiTiAxMDDCsDE1JzEwLjgiVw!5e0!3m2!1ses!2smx!4v1620000000000!5m2!1ses!2smx"
-  };
   return (
     <section className="py-20 px-4 bg-wedding-paper relative overflow-hidden">
       
