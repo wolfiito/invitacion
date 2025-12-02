@@ -1,74 +1,78 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import heroBg from "../../assets/fondobosque.jpg";
 
 export const Hero = () => {
-  return (
-    <section className="relative h-screen w-full overflow-hidden bg-wedding-paper flex flex-col items-center justify-center text-center px-4">
-      
-      {/* 1. Fondo con textura o Imagen (Placeholder de Bosque) */}
-      <div className="absolute inset-0 w-full h-full">
-        <img 
-          src={heroBg} 
-          alt="Fondo Bosque" 
-          className="w-full h-full object-cover opacity-20" // Opacidad baja para que sea sutil
-        />
-        {/* Gradiente para suavizar la unión con el color de fondo */}
-        <div className="absolute inset-0 bg-gradient-to-b from-wedding-paper/30 via-transparent to-wedding-paper/80" />
-      </div>
-
-      {/* 2. Contenido Principal */}
-      <div className="relative z-10 max-w-4xl mx-auto space-y-6">
+    // 1. Detectamos el scroll de toda la página
+    const { scrollY } = useScroll();
+    
+    // 2. Creamos la magia: 
+    // Cuando el scroll va de 0px a 500px, la imagen se mueve solo 0px a 250px.
+    // Esto hace que la imagen parezca estar "más lejos" (se mueve más lento).
+    const y = useTransform(scrollY, [0, 500], [0, 250]);
+    const opacity = useTransform(scrollY, [0, 300], [1, 0]); // El texto se desvanecerá al bajar
+  
+    return (
+      <section className="relative h-screen w-full overflow-hidden flex flex-col items-center justify-center text-center px-4">
         
-        {/* Pequeño texto superior */}
-        <motion.p 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-wedding-secondary uppercase tracking-[0.3em] text-sm font-sans font-bold"
-        >
-          ¡Nos Casamos!
-        </motion.p>
-
-        {/* Nombres (El impacto visual) */}
-        <motion.h1 
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
-          className="font-serif text-5xl md:text-7xl lg:text-8xl text-wedding-primary leading-tight"
-        >
-          Cecilia <span className="text-wedding-rose italic text-4xl md:text-6xl align-middle">&</span> Alejandro
-        </motion.h1>
-
-        {/* Fecha */}
+        {/* 3. Aplicamos el movimiento a la imagen de fondo */}
         <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1 }}
-          className="flex items-center justify-center gap-4 text-wedding-primary/80 font-sans text-lg md:text-xl mt-4 border-t border-b border-wedding-sage/50 py-2 inline-block"
+          style={{ y }} // <--- Aquí conectamos el Parallax
+          className="absolute inset-0 w-full h-full"
         >
-          <span>Sábado</span>
-          <span className="w-1.5 h-1.5 bg-wedding-secondary rounded-full"></span>
-          <span>Algún día</span>
-          <span className="w-1.5 h-1.5 bg-wedding-secondary rounded-full"></span>
-          <span>En algún año</span>
+          <img 
+            src={heroBg} 
+            alt="Fondo Bosque" 
+            className="w-full h-full object-cover" 
+          />
+          <div className="absolute inset-0 bg-black/20" /> {/* Oscurecer un poco para contraste */}
         </motion.div>
-      </div>
-
-      {/* 3. Indicador de Scroll (Animado) */}
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1, y: [0, 10, 0] }}
-        transition={{ 
-          opacity: { delay: 2, duration: 1 },
-          y: { repeat: Infinity, duration: 1.5, ease: "easeInOut" }
-        }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-wedding-primary/60"
-      >
-        <span className="text-xs uppercase tracking-widest mb-2 block font-sans">Desliza</span>
-        <ChevronDown className="w-6 h-6 mx-auto" />
-      </motion.div>
-
-    </section>
-  );
-};
+  
+        {/* Contenido (Texto) - Este se mueve normal, creando el contraste de velocidad */}
+        <motion.div 
+          style={{ opacity }} // El texto desaparece suavemente al bajar
+          className="relative z-10 max-w-4xl mx-auto space-y-6"
+        >
+          <motion.p 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-white/90 uppercase tracking-[0.3em] text-sm font-bold"
+          >
+            ¡Nos Casamos!
+          </motion.p>
+  
+          <motion.h1 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.2 }}
+            className="font-serif text-5xl md:text-8xl text-white drop-shadow-lg"
+          >
+            Cecilia <span className="text-wedding-rose italic font-light">&</span> Alejandro
+          </motion.h1>
+  
+          <motion.div 
+             initial={{ opacity: 0 }}
+             animate={{ opacity: 1 }}
+             transition={{ delay: 0.8 }}
+             className="inline-block border-y border-white/50 py-2 px-8 mt-4"
+          >
+            <p className="text-white text-xl font-serif tracking-widest">
+              25 . OCT . 2025
+            </p>
+          </motion.div>
+        </motion.div>
+  
+        {/* Scroll Indicator */}
+        <motion.div 
+          style={{ opacity }} // También desaparece al bajar
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white"
+        >
+          <ChevronDown className="w-8 h-8" />
+        </motion.div>
+  
+      </section>
+    );
+  };

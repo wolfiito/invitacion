@@ -8,3 +8,21 @@
 html {
   scroll-behavior: smooth;
 }
+
+/* ... resto del css ... */
+
+/* TEXTURA GLOBAL DE PAPEL */
+body::before {
+  content: "";
+  position: fixed; /* Se queda fija aunque hagas scroll */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Una imagen de ruido muy sutil */
+  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+  opacity: 0.05; /* Muy transparente, solo para matar el color sólido */
+  pointer-events: none; /* Permite dar clicks a través de ella */
+  z-index: 50; /* Por encima de todo */
+  filter: contrast(120%) brightness(100%);
+}
