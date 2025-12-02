@@ -1,20 +1,59 @@
+import { useParams } from "react-router-dom";
+import { eventsDatabase } from "./data/events-db";
+
 import { Hero } from "./components/features/Hero";
+import { HeroModern } from "./components/features/HeroModern";
+
 import { Countdown } from "./components/features/Countdown";
+import { CountdownMinimal } from "./components/features/CountdownMinimal";
 import { Gallery } from "./components/features/Gallery";
 import { Location } from "./components/features/Location";
 import { Timeline } from "./components/features/Timeline";
 import { DressCode } from "./components/features/DressCode";
 import { GiftRegistry } from "./components/features/GiftRegistry";
+import { weddingData } from "./data/wedding-data";
 
 function App() {
-  const weddingDate = new Date('2026-04-25T16:00:00');
+
+  const { eventId } = useParams();
+
+  const data = eventId ? eventsDatabase[eventId] : null;
+
+  const dateObj = new Date(weddingData.weddingDate);
+
+  if (!data) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-100 text-gray-500">
+        <p className="text-xl">🚫 Invitación no encontrada</p>
+      </div>
+    );
+  }
+
   return (
     <main className="w-full min-h-screen bg-wedding-paper selection:bg-wedding-rose selection:text-wedding-primary">
-      <Hero />
-      <Countdown date={weddingDate} />
+      {data.theme === 'modern' ? (
+        <HeroModern 
+          tagline={data.hero.tagline}
+          names={data.hero.names}
+          date={data.hero.date}
+          backgroundImage={data.hero.backgroundImage}
+        />
+      ) : (
+        <Hero 
+          tagline={data.hero.tagline}
+          names={data.hero.names}
+          date={data.hero.date}
+          backgroundImage={data.hero.backgroundImage}
+        />
+      )}
+      {weddingData.config.countdownStyle === 'minimal' ? (
+        <CountdownMinimal date={dateObj} />
+      ) : (
+        <Countdown date={dateObj} />
+      )}
       <Gallery />
       <Location />
-      <Timeline />
+      <Timeline events={weddingData.timeline} />
       <DressCode />
       <GiftRegistry />
       {/* <RSVP /> */}
