@@ -5,7 +5,6 @@ import { Location } from "./components/features/Location";
 import { Timeline } from "./components/features/Timeline";
 import { DressCode } from "./components/features/DressCode";
 import { GiftRegistry } from "./components/features/GiftRegistry";
-import { RSVP } from "./components/features/RSVP";
 
 function App() {
   const weddingDate = new Date('2026-04-25T16:00:00');
