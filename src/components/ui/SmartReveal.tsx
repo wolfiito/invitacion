@@ -53,7 +53,7 @@ interface Props {
   className?: string;
 }
 
-export const SmartReveal = ({ children, variant = "classic", delay = 0, className = "" }: Props) => {
+export const SmartReveal = ({ children, delay = 0, className = "" }: Props) => {
   return (
     <motion.div
       variants={animationVyariants as any} // Selecciona la animación según la prop
