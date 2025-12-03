@@ -52,7 +52,13 @@ function App() {
         <Countdown date={dateObj} />
       )}
       <Gallery />
-      <Location />
+      <Location 
+        title={data.location.title}
+        address={data.location.address}
+        mapUrl={data.location.mapUrl}
+        googleMapsEmbed={data.location.googleMapsEmbed}
+        animationStyle={data.animationStyle} 
+      />
       <Timeline events={weddingData.timeline} />
       <DressCode />
       <GiftRegistry />
